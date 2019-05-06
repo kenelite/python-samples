@@ -128,6 +128,7 @@ def ListMessagesWithLabels(service, user_id, label_ids=[]):
       for m in messages:
           print(m)
           DeleteMessage(service, 'me', m['id'])
+          messages.remove(m)
 
   except errors.HttpError as error:
     print ('An error occurred: %s' % error)
