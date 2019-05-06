@@ -118,10 +118,6 @@ def ListMessagesWithLabels(service, user_id, label_ids=[]):
     if 'messages' in response:
       messages.extend(response['messages'])
 
-    for m in messages:
-        print (m)
-        DeleteMessage(service, 'me', m['id'])
-
     while 'nextPageToken' in response:
       page_token = response['nextPageToken']
       response = service.users().messages().list(userId=user_id,
@@ -129,6 +125,9 @@ def ListMessagesWithLabels(service, user_id, label_ids=[]):
                                                  pageToken=page_token).execute()
       #print (response)
       messages.extend(response['messages'])
+      for m in messages:
+          print(m)
+          DeleteMessage(service, 'me', m['id'])
 
   except errors.HttpError as error:
     print ('An error occurred: %s' % error)
